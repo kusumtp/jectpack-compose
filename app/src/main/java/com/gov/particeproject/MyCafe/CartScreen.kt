@@ -1,4 +1,4 @@
-package com.gov.particeproject.Grocery
+package com.gov.particeproject.MyCafe
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -36,12 +36,14 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.gov.particeproject.R
 
 data class CartSummary(
     val subtotal: Double,
@@ -141,7 +143,7 @@ fun CartScreen(
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         IconButton(onClick = { cartState.decreaseItem(product) }) {
                                             Icon(
-                                                Icons.Default.Clear,
+                                                imageVector = ImageVector.vectorResource(id = R.drawable.mince),
                                                 contentDescription = "Decrease",
                                                 tint = MaterialTheme.colorScheme.primary
                                             )

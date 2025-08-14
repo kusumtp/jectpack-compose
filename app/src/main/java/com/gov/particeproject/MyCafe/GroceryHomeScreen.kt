@@ -1,4 +1,4 @@
-package com.gov.particeproject.Grocery
+package com.gov.particeproject.MyCafe
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,13 +12,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -56,33 +54,30 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import kotlinx.parcelize.Parcelize
 import android.os.Parcelable
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.gov.particeproject.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.runtime.derivedStateOf
 
 @Parcelize
 data class Product(
     val name: String,
     val price: String,
-    val imageUrl: String
+    val imageUrl: String,
+    val type: String
 ) : Parcelable
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -97,22 +92,28 @@ fun GroceryHomeScreen(
     var currentPage by remember { mutableStateOf(0) }
     var isLoading by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
+    var selectedType by remember { mutableStateOf("All") }
 
     val listState = rememberLazyGridState()
     val snackbarHostState = remember { SnackbarHostState() }
     var showLimitSnackbar by remember { mutableStateOf(false) }
 
-    val CursiveFont = FontFamily(
-        Font(R.font.playwritehu_regular, FontWeight.Normal)
-    )
+    val CursiveFont = FontFamily(Font(R.font.playwritehu_regular, FontWeight.Normal))
 
     var loadedProducts by remember {
         mutableStateOf(products.take(pageSize))
     }
 
-    val filteredProducts = remember(searchQuery, loadedProducts) {
+    // 🧠 Extract unique types
+    val productTypes = remember(products) {
+        listOf("All") + products.map { it.type }.distinct()
+    }
+
+    // 🔍 Filter by type and search
+    val filteredProducts = remember(searchQuery, selectedType, loadedProducts) {
         loadedProducts.filter {
-            it.name.contains(searchQuery, ignoreCase = true)
+            (selectedType == "All" || it.type.equals(selectedType, ignoreCase = true)) &&
+                    it.name.contains(searchQuery, ignoreCase = true)
         }
     }
 
@@ -188,6 +189,7 @@ fun GroceryHomeScreen(
                 .padding(padding)
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
+
                 // 🔍 Search bar
                 Surface(
                     tonalElevation = 2.dp,
@@ -221,6 +223,32 @@ fun GroceryHomeScreen(
                     )
                 }
 
+                // 🍽️ Category Filter Row
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(productTypes) { type ->
+                        val isSelected = selectedType == type
+                        FilterChip(
+                            selected = isSelected,
+                            onClick = { selectedType = type },
+                            label = {
+                                Text(type, color = if (isSelected)
+                                    MaterialTheme.colorScheme.onPrimary
+                                else
+                                    MaterialTheme.colorScheme.primary)
+                            },
+                            colors = FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f),
+                                containerColor = MaterialTheme.colorScheme.surface
+                            )
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
                 // 🧃 Product Grid
                 if (filteredProducts.isEmpty()) {
                     Box(
@@ -236,7 +264,7 @@ fun GroceryHomeScreen(
                         contentPadding = PaddingValues(8.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp),
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
                     ) {
                         items(filteredProducts) { product ->
                             val count = cartState.getCount(product)

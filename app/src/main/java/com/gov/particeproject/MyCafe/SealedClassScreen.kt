@@ -1,4 +1,4 @@
-package com.gov.particeproject.Grocery
+package com.gov.particeproject.MyCafe
 
 sealed class SealedClassScreen(val route: String) {
     object Splash : SealedClassScreen("splash")

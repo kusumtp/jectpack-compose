@@ -6,7 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
-import com.gov.particeproject.Grocery.GroceryApp
+import com.gov.particeproject.MyCafe.MyCafe
 import com.gov.particeproject.ui.theme.ParticeProjectTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,8 +18,7 @@ class MainActivity : ComponentActivity() {
             ParticeProjectTheme {
 //                praticeapp()
 //                MainNavHost()
-//                GroNavHost()
-                GroceryApp()
+                MyCafe()
             }
         }
     }

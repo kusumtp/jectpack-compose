@@ -1,4 +1,4 @@
-package com.gov.particeproject.Grocery
+package com.gov.particeproject.MyCafe
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -42,17 +41,32 @@ import kotlinx.coroutines.delay
 
 
 @Composable
-fun GroceryApp() {
+fun MyCafe() {
     ParticeProjectTheme {
         val navController = rememberNavController()
 
         val sampleProducts = listOf(
-            Product("Red Velvet", "200", "https://thebusybaker.ca/wp-content/uploads/2020/02/red-velvet-cake-fb-ig-5-scaled.jpg"),
-            Product("Dark Chocolate", "220", "https://tse2.mm.bing.net/th/id/OIP.ZyqLlushKN-qThkwMbexTAHaE7?rs=1&pid=ImgDetMain&o=7&rm=3"),
-            Product("Strawberry", "160", "https://chelsweets.com/wp-content/uploads/2022/01/cake-slice-glamour-shot-better-1080x864.jpg"),
-            Product("Black Forest", "140", "https://c8.alamy.com/comp/2M47JTC/multi-layered-black-forest-cake-slice-with-cherries-cream-and-chocolate-sponge-2M47JTC.jpg"),
-            Product("Fruits Cake", "160", "https://www.wonderfulcake.com.my/cdn/shop/products/WC-web-11-Fruit-Passion-iii.jpg?v=1561617515&width=533"),
-            Product("Vanilla Peach Cake", "200", "https://i.pinimg.com/originals/b1/cd/3b/b1cd3b72085968ac25ad47a1f34a4e34.webp")
+            Product("Red Velvet", "200", "https://thebusybaker.ca/wp-content/uploads/2020/02/red-velvet-cake-fb-ig-5-scaled.jpg","Cake"),
+            Product("Dark Chocolate", "220", "https://tse2.mm.bing.net/th/id/OIP.ZyqLlushKN-qThkwMbexTAHaE7?rs=1&pid=ImgDetMain&o=7&rm=3","Cake"),
+            Product("Strawberry", "160", "https://chelsweets.com/wp-content/uploads/2022/01/cake-slice-glamour-shot-better-1080x864.jpg","Cake"),
+            Product("Black Forest", "140", "https://c8.alamy.com/comp/2M47JTC/multi-layered-black-forest-cake-slice-with-cherries-cream-and-chocolate-sponge-2M47JTC.jpg","Cake"),
+            Product("Fruits Cake", "160", "https://www.wonderfulcake.com.my/cdn/shop/products/WC-web-11-Fruit-Passion-iii.jpg?v=1561617515&width=533","Cake"),
+            Product("Vanilla Peach Cake", "200", "https://i.pinimg.com/originals/b1/cd/3b/b1cd3b72085968ac25ad47a1f34a4e34.webp","Cake"),
+            Product("Cookie Dough Cheesecake", "220", "https://images.edge-generalmills.com/44e6e682-087a-4e48-8ff9-a0ecd3d6d5eb.jpg","Cheese"),
+            Product("S'Mores Cheesecake", "250", "https://www.theodysseyonline.com/media-library/image.jpg?id=14641806&width=620&quality=80","Cheese"),
+            Product("Turtle Cheesecake", "220", "https://www.sprinklesomesugar.com/wp-content/uploads/2014/11/IMG_2430-3.jpg","Cheese"),
+            Product("Pumpkin Cheesecake", "180", "https://www.theodysseyonline.com/media-library/image.jpg?id=14641814&width=720&quality=80","Cheese"),
+            Product("Oreo Cheesecake", "200", "https://www.theodysseyonline.com/media-library/image.jpg?id=14641796&width=640&quality=80","Cheese"),
+            Product("Black Coffee", "150", "https://twigscafe.com/wp-content/uploads/2021/06/dark-organic-black-coffee-edited-1.jpg","Coffee"),
+            Product("Coffee and Cream", "150", "https://twigscafe.com/wp-content/uploads/2021/06/coffee-with-milk-edited-560x747.jpg","Coffee"),
+            Product("Espresso", "200", "https://twigscafe.com/wp-content/uploads/2021/06/cup-of-coffee-espresso-edited-560x747.jpg","Coffee"),
+            Product("Cappuccino", "200", "https://twigscafe.com/wp-content/uploads/2021/06/capuccino-edited-560x747.jpg","Coffee"),
+            Product("Latte", "200", "https://twigscafe.com/wp-content/uploads/2021/06/cup-of-coffee-with-latte-art-edited-560x747.jpg","Coffee"),
+            Product("Caramel Latte", "200", "https://twigscafe.com/wp-content/uploads/2021/06/latte-with-whiped-cream-and-caramel-edited-560x747.jpg","Coffee"),
+            Product("Iced Coffee", "200", "https://twigscafe.com/wp-content/uploads/2021/06/iced-coffee-in-glasses-edited-560x747.jpg","Coffee"),
+            Product("Iced Americano", "200", "https://twigscafe.com/wp-content/uploads/2021/06/americano-coffee-in-a-mug-on-your-desk-edited.jpg","Coffee"),
+
+
         )
 
         val cartState = remember { CartState(sampleProducts) }

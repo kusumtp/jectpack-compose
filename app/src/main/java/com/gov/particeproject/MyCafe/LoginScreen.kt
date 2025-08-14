@@ -1,4 +1,4 @@
-package com.gov.particeproject.Grocery
+package com.gov.particeproject.MyCafe
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,13 +14,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.gov.particeproject.R
+import com.gov.particeproject.RequestPermissions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,6 +44,19 @@ fun LoginScreen(
     onLoginSuccess: () -> Unit,
     onNavigateToSignup: () -> Unit
 ) {
+    var permissionsGranted by remember { mutableStateOf(false) }
+    RequestPermissions { granted -> permissionsGranted = granted }
+    if (permissionsGranted) {
+        // Proceed with your login screen UI
+        Surface(modifier = Modifier.fillMaxSize()) {
+            // Your login screen UI components
+            Text("Permissions granted. Proceed with login.")
+        }
+    } else {
+        // Show a message or handle the case where permissions are not granted
+        Text("Permissions are required to proceed.")
+    }
+
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
