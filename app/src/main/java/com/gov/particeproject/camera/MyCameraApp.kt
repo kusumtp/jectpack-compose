@@ -1,0 +1,11 @@
+package com.gov.particeproject.camera
+
+import android.app.Application
+import androidx.camera.camera2.Camera2Config
+import androidx.camera.core.CameraXConfig
+
+class MyCameraApp : Application(), CameraXConfig.Provider {
+    override fun getCameraXConfig(): CameraXConfig {
+        return Camera2Config.defaultConfig()
+    }
+}
